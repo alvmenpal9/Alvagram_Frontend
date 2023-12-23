@@ -112,8 +112,6 @@ a {
   padding: 0px 20px;
 }
 
-.logo {}
-
 .logo:hover {
   cursor: pointer;
 }
@@ -285,9 +283,6 @@ h3 {
   display: flex;
   align-items: center;
   height: 20px;
-}
-
-.post__content--details p{
 }
 
 /* TEMPLATES */
