@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
+import PostDetails from "./PostDetails";
 
 const url = 'post/followed'
 const Home = () => {
@@ -8,22 +9,21 @@ const Home = () => {
     const { auth } = useAuth();
     const [followedPosts, setFollowedPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    console.log(auth);
 
     useEffect(() => {
 
         const getData = async () => {
-            try{
+            try {
                 const response = await axios.get(url, {
                     headers: {
                         Authorization: auth.accessToken
                     }
                 })
-                if(response?.status === 200){
+                if (response?.status === 200) {
                     setFollowedPosts(response.data.postsUsers);
                     setIsLoading(false);
                 }
-            }catch(error){
+            } catch (error) {
                 console.error(error);
             }
         }
@@ -32,12 +32,10 @@ const Home = () => {
 
     }, [])
 
-    console.log(followedPosts);
-
     return (
-        <>
-
-        </>
+        isLoading 
+            ? <PostDetails />
+            : <PostDetails followedPosts={followedPosts} isLoading={false} />
     )
 }
 
