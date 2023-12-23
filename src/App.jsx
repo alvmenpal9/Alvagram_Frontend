@@ -1,15 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './assets/styles/App.css'
+import { Route, Routes } from 'react-router-dom'
+import Login from './components/Login'
+import Register from './components/Register'
+import LayoutHome from './components/LayoutHome'
+import React from 'react'
+import Home from './components/user/Home'
+import RequireAuth from './components/RequireAuth'
+import Notifications from './components/user/Notifications'
+import Messages from './components/user/Messages'
+import Profile from './components/user/Profile'
+import CreatePost from './components/user/Post'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const ROLES = {
+    'User': 'user'
+  }
 
   return (
-    <>
-      <h1>HOLA</h1>
-    </>
+    <Routes>
+      <Route path='/' element={<LayoutHome />}>
+        {/* PUBLIC ROUTES */}
+        <Route index element={<Login />} />
+        <Route path='login' element={<Login />} />
+        <Route path='register' element={<Register />} />
+      </Route>
+
+      <Route path='/' element={<RequireAuth allowedRoles={ROLES.User} />}>
+        <Route path='home' element={<Home />} />
+      </Route>
+
+      <Route path='/' element={<RequireAuth allowedRoles={ROLES.User} />}>
+        <Route path='notifications' element={<Notifications />} />
+      </Route>
+
+      <Route path='/' element={<RequireAuth allowedRoles={ROLES.User} />}>
+        <Route path='messages' element={<Messages />} />
+      </Route>
+
+      <Route path='/' element={<RequireAuth allowedRoles={ROLES.User} />}>
+        <Route path='profile/:username' element={<Profile />} />
+      </Route>
+
+      <Route path='/' element={<RequireAuth allowedRoles={ROLES.User} />}>
+        <Route path='/createpost' element={<CreatePost />} />
+      </Route>
+
+      <Route path='unauthorized' element={
+        <h1>Not enough privileges</h1>
+      } />
+    </Routes>
   )
 }
 
