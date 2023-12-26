@@ -1,9 +1,55 @@
 import React from "react";
-
+import axios from "axios";
 import { Global_url_api } from "../../constants/global";
+import useAuth from "../../hooks/useAuth";
+
 const PostDetails = ({ followedPosts = [], isLoading = true }) => {
 
-    console.log(followedPosts);
+    const { auth } = useAuth();
+
+    const handleLike = async (postId) => {
+
+        try {
+            const response = await axios.get(`${Global_url_api}like/${postId}`, {
+                headers: {
+                    Authorization: auth.accessToken
+                }
+            })
+
+            if (response?.status === 200) {
+                const numberLikes = document.querySelector(`#numberLikes${postId}`);
+                const divLikes = document.querySelector(`#logoLikes${postId}`);
+                if (response?.data?.message === 'Liked') {
+                    divLikes.classList.remove('border');
+                    divLikes.classList.add('filled');
+                    numberLikes.textContent = parseInt(numberLikes.textContent) + 1
+                }
+                if (response?.data?.message === 'Disliked') {
+                    divLikes.classList.remove('filled');
+                    divLikes.classList.add('border');
+                    numberLikes.textContent = parseInt(numberLikes.textContent) - 1
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const ILike = (post) => {
+        let currentUserLiked = false;
+        
+        post.forEach(likes => {
+            if(likes.usernameLiked === auth.username){
+                currentUserLiked = true;
+            }
+        })
+
+        if(currentUserLiked){
+            return 'likes filled'
+        }else{
+            return 'likes border'
+        }
+    }
 
     return (
         !isLoading
@@ -26,11 +72,12 @@ const PostDetails = ({ followedPosts = [], isLoading = true }) => {
                             <div className="post__content--details">
                                 <ul style={{ listStyle: 'none', paddingLeft: '0' }}>
                                     <li>
-                                        <div className="likes"></div>
-                                        <p>{post.Post.likes}</p>
+                                        <div id={`logoLikes${post.Post._id}`} className= {ILike(post.AllLikes)}
+                                        onClick={e => handleLike(post.Post._id)}></div>
+                                        <p id={`numberLikes${post.Post._id}`}>{post.Post.likes}</p>
                                     </li>
                                 </ul>
-                                <p>{post.Post.description}</p>
+                                <p><strong style={{ color: 'var(--primary-color_dark)' }}>{post.FollowedUser.username}</strong> {post.Post.description}</p>
                             </div>
                         </section>
                     </article>

@@ -172,6 +172,7 @@ h3 {
   color: var(--dark-gray)
 }
 
+
 .profile_pic {
   max-width: 20%;
 }
@@ -184,18 +185,20 @@ h3 {
   margin-top: 80px;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  column-gap: 10px;
-  row-gap: 10px;
 }
 
+.posts_profile>*{
+  flex: 0 0 33.3333%;
+}
+
+/* VERY IMPORTANT TO CREATE 1:1 DIVS */
 .post_profile {
-  width: 300px;
-  height: 300px;
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  width: 33.333%;
+  aspect-ratio: 1/1;
+  border: 1px var(--light-gray) solid;
+  position: relative;
 }
 
 .post_profile:hover {
@@ -204,20 +207,26 @@ h3 {
 }
 
 .post_profile img {
-  width: 100%;
+  max-width: 100%;
   height: 100%;
-  object-fit: cover;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 /* POSTS HOME USER STYLE */
 
 .post {
-  width: 50%;
+  width: 40%;
   margin: 0 auto 50px auto;
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
   border-radius: 10px;
+  padding-bottom: 20px;
 }
 
 .post:last-of-type {
@@ -267,12 +276,24 @@ h3 {
 }
 
 .likes{
-  background-image: url('/src/assets/img/heart.png');
+  
   height: 100%;
   background-repeat: no-repeat;
   width: 20px;
   background-size: cover;
   margin-right: 8px;
+}
+
+.likes:hover{
+  cursor: pointer;
+}
+
+.border{
+  background-image: url('/src/assets/img/heart_border.png');
+}
+
+.filled{
+  background-image: url('/src/assets/img/heart.png');
 }
 
 .post__content--details{
@@ -339,4 +360,21 @@ button:hover {
   border-radius: 5px;
   transition: 0.5s;
   text-transform: uppercase;
+}
+
+.unfollow{
+  margin: 0;
+  margin-top: 20px;
+  background-color: var(--white);
+  color: var(--primary-color);
+  border: 2px var(--primary-color) solid;
+}
+
+.unfollow:hover{
+  color: var(--white);
+}
+
+.follow{
+  margin: 0;
+  margin-top: 20px;
 }
