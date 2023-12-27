@@ -2,10 +2,14 @@ import React from "react";
 import axios from "axios";
 import { Global_url_api } from "../../constants/global";
 import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const PostDetails = ({ followedPosts = [], isLoading = true }) => {
 
     const { auth } = useAuth();
+    const navigate = useNavigate();
+    const currentTime = new Date();
 
     const handleLike = async (postId) => {
 
@@ -37,19 +41,21 @@ const PostDetails = ({ followedPosts = [], isLoading = true }) => {
 
     const ILike = (post) => {
         let currentUserLiked = false;
-        
+
         post.forEach(likes => {
-            if(likes.usernameLiked === auth.username){
+            if (likes.usernameLiked === auth.username) {
                 currentUserLiked = true;
             }
         })
 
-        if(currentUserLiked){
+        if (currentUserLiked) {
             return 'likes filled'
-        }else{
+        } else {
             return 'likes border'
         }
     }
+
+    console.log(followedPosts);
 
     return (
         !isLoading
@@ -57,8 +63,8 @@ const PostDetails = ({ followedPosts = [], isLoading = true }) => {
                 followedPosts.map(post => (
                     <article className="post" key={post.Post._id}>
                         <header className="post__information">
-                            <h3>{post.FollowedUser.username}</h3>
-                            <div className="post__information--avatar">
+                            <h3 onClick={e => navigate(`/profile/${post.FollowedUser.username}`)} >{post.FollowedUser.username} - <span style={{color:'var(--dark-gray)', fontWeight: 'normal', fontSize: '18px'}}>{moment(post.Post.date).format("MMM/D h:mm A")}</span></h3>
+                            <div className="post__information--avatar" onClick={e => navigate(`/profile/${post.FollowedUser.username}`)}>
                                 {post.FollowedUser.image === 'default.png'
                                     ? <img src="/src/assets/img/default.png" className="avatar" />
                                     : <img src={`${Global_url_api}`} className="avatar" />
@@ -72,13 +78,16 @@ const PostDetails = ({ followedPosts = [], isLoading = true }) => {
                             <div className="post__content--details">
                                 <ul style={{ listStyle: 'none', paddingLeft: '0' }}>
                                     <li>
-                                        <div id={`logoLikes${post.Post._id}`} className= {ILike(post.AllLikes)}
-                                        onClick={e => handleLike(post.Post._id)}></div>
+                                        <div id={`logoLikes${post.Post._id}`} className={ILike(post.AllLikes)}
+                                            onClick={e => handleLike(post.Post._id)}></div>
                                         <p id={`numberLikes${post.Post._id}`}>{post.Post.likes}</p>
                                     </li>
                                 </ul>
-                                <p><strong style={{ color: 'var(--primary-color_dark)' }}>{post.FollowedUser.username}</strong> {post.Post.description}</p>
+                                <p><strong onClick={e => navigate(`/profile/${post.FollowedUser.username}`)}>{post.FollowedUser.username}</strong> {post.Post.description}</p>
                             </div>
+                        </section>
+                        <section>
+
                         </section>
                     </article>
                 ))
@@ -94,12 +103,10 @@ const PostDetails = ({ followedPosts = [], isLoading = true }) => {
                     </header>
                     <section className="post__content">
                         <div className="post__content--image">
-                            {/* <img src={`${Global_url_api}post/image/${post.Post.image}`} /> */}
                         </div>
                         <div className="post__content--details">
 
                         </div>
-                        {/* <p>{post.Post.description}</p> */}
                     </section>
                 </article>
             )

@@ -107,6 +107,7 @@ const Profile = () => {
                     }
                 });
                 if(response?.status === 200){
+                    setNumberOfFollowers(numberOfFollowers-1);
                     setIFollow(false);
                 }
 
@@ -120,6 +121,7 @@ const Profile = () => {
                 })
 
                 if(response?.status === 200){
+                    setNumberOfFollowers(numberOfFollowers+1);
                     setIFollow(true);
                 }
             }
