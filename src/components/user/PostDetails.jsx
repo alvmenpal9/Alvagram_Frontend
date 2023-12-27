@@ -55,8 +55,6 @@ const PostDetails = ({ followedPosts = [], isLoading = true }) => {
         }
     }
 
-    console.log(followedPosts);
-
     return (
         !isLoading
             ? (
@@ -76,18 +74,28 @@ const PostDetails = ({ followedPosts = [], isLoading = true }) => {
                                 <img src={`${Global_url_api}post/image/${post.Post.image}`} />
                             </div>
                             <div className="post__content--details">
-                                <ul style={{ listStyle: 'none', paddingLeft: '0' }}>
+                                <ul style={{ listStyle: 'none', paddingLeft: '0', display: 'flex', columnGap: '10px' }}>
                                     <li>
                                         <div id={`logoLikes${post.Post._id}`} className={ILike(post.AllLikes)}
                                             onClick={e => handleLike(post.Post._id)}></div>
                                         <p id={`numberLikes${post.Post._id}`}>{post.Post.likes}</p>
                                     </li>
+                                    <li>
+                                        <div className='comments'></div>
+                                        <p>0</p>
+                                    </li>
                                 </ul>
                                 <p><strong onClick={e => navigate(`/profile/${post.FollowedUser.username}`)}>{post.FollowedUser.username}</strong> {post.Post.description}</p>
                             </div>
                         </section>
-                        <section>
-
+                        <section className="post__content--comments">
+                            <p>See all comments...</p>
+                                <div className="post__content--comment_action">
+                                    <textarea placeholder="Make a comment..."></textarea>
+                                    <div>
+                                        <img src="/src/assets/img/send-message.png" />
+                                    </div>
+                                </div>
                         </section>
                     </article>
                 ))

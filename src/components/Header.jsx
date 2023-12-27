@@ -8,6 +8,11 @@ const Header = () => {
     const navigate = useNavigate();
     const { auth } = useAuth();
 
+    const showFloatingModal = (e) => {
+        const modal = document.querySelector('#floating-file');
+        modal.showModal();
+    }
+
     return (
         <header className="header">
             <div className="logo" onClick={e => navigate('/home')}>
@@ -17,9 +22,9 @@ const Header = () => {
             <nav className="navbar">
                 <ul className="navbar_list">
                     <li>
-                        <NavLink to={'/createpost'}>
+                        <a onClick={showFloatingModal}>
                             <img src="/src/assets/img/add.png" alt="Create post" />
-                        </NavLink>
+                        </a>
                     </li>
                     <li>
                         <NavLink to={'/home'}>

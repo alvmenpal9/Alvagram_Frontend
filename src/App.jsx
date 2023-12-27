@@ -9,7 +9,6 @@ import RequireAuth from './components/RequireAuth'
 import Notifications from './components/user/Notifications'
 import Messages from './components/user/Messages'
 import Profile from './components/user/Profile'
-import CreatePost from './components/user/Post'
 
 function App() {
 
@@ -40,10 +39,6 @@ function App() {
 
       <Route path='/' element={<RequireAuth allowedRoles={ROLES.User} />}>
         <Route path='profile/:username' element={<Profile />} />
-      </Route>
-
-      <Route path='/' element={<RequireAuth allowedRoles={ROLES.User} />}>
-        <Route path='/createpost' element={<CreatePost />} />
       </Route>
 
       <Route path='unauthorized' element={

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Header from "./Header";
+import CreatePost from "./user/CreatePost";
 
 const RequireAuth = ({ allowedRoles }) => {
 
@@ -18,7 +19,8 @@ const RequireAuth = ({ allowedRoles }) => {
                 <>
                     <Header />
                     <main className="main">
-                            <Outlet />
+                        <CreatePost />
+                        <Outlet />
                     </main>
                 </>
                 :

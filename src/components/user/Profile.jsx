@@ -18,6 +18,7 @@ const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
     const { auth } = useAuth();
     const { username } = useParams();
+    const [imageToUpdate, setImageToUpdate] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,7 +42,6 @@ const Profile = () => {
                         }
 
                     })
-
                     setPosts(response?.data?.profile?.Posts);
                     setFollowing(response?.data?.profile?.FollowingInfo);
                     setFollowers(response?.data?.profile?.FollowersInfo);
@@ -106,13 +106,13 @@ const Profile = () => {
                         Authorization: auth.accessToken
                     }
                 });
-                if(response?.status === 200){
-                    setNumberOfFollowers(numberOfFollowers-1);
+                if (response?.status === 200) {
+                    setNumberOfFollowers(numberOfFollowers - 1);
                     setIFollow(false);
                 }
 
             } else {
-                response = await axios.post(`/follow`,{
+                response = await axios.post(`/follow`, {
                     username: username
                 }, {
                     headers: {
@@ -120,8 +120,8 @@ const Profile = () => {
                     }
                 })
 
-                if(response?.status === 200){
-                    setNumberOfFollowers(numberOfFollowers+1);
+                if (response?.status === 200) {
+                    setNumberOfFollowers(numberOfFollowers + 1);
                     setIFollow(true);
                 }
             }
@@ -131,6 +131,62 @@ const Profile = () => {
         }
     }
 
+    const showEditWindow = async (e) => {
+        const createModal = document.createElement('DIALOG');
+        const formCreate = document.createElement('FORM');
+        const mainWindow = document.querySelector('.main');
+
+        const nameLabel = document.createElement('LABEL');
+        const nameField = document.createElement('INPUT');
+        nameLabel.textContent = 'Name:'
+        nameField.type = 'text'
+        nameField.name = 'name'
+        nameField.defaultValue = profile.name;
+
+        const surnameLabel = document.createElement('LABEL');
+        const surnameField = document.createElement('INPUT');
+        surnameLabel.textContent = 'Surname:'
+        surnameField.type = 'text'
+        surnameField.name = 'surname'
+        surnameField.defaultValue = profile.surname;
+
+        const profilePictureLabel = document.createElement('LABEL');
+        const profilePictureField = document.createElement('INPUT');
+        profilePictureLabel.textContent = 'Profile Picture:'
+        profilePictureField.type = 'file'
+        profilePictureField.name = 'file0'
+
+        const editButton = document.createElement('INPUT');
+        const cancelButton = document.createElement('BUTTON');
+        editButton.type = 'submit'
+        editButton.value = 'Edit'
+        cancelButton.textContent = 'Cancel'
+
+        cancelButton.addEventListener('click', e => {
+            createModal.close();
+        })
+
+        formCreate.enctype = 'multipart/form-data'
+        formCreate.appendChild(nameLabel);
+        formCreate.appendChild(nameField);
+        formCreate.appendChild(surnameLabel);
+        formCreate.appendChild(surnameField);
+        formCreate.appendChild(profilePictureLabel);
+        formCreate.appendChild(profilePictureField);
+        formCreate.append(editButton);
+
+        formCreate.addEventListener('submit', e => {
+            e.preventDefault();
+            console.log(e.target.name.value);
+        })
+
+        createModal.appendChild(formCreate);
+        createModal.append(cancelButton);
+
+        mainWindow.appendChild(createModal);
+
+        createModal.showModal();
+    }
 
     return (
         <section className="main_content">
@@ -170,6 +226,10 @@ const Profile = () => {
                                     <h3>Posts <span style={{ fontWeight: 'lighter', color: 'var(--primary-color)' }}>{numberOfPosts}</span></h3>
                                     <h3>Followers <span style={{ fontWeight: 'lighter', color: 'var(--primary-color)' }}>{numberOfFollowers}</span></h3>
                                     <h3>Following <span style={{ fontWeight: 'lighter', color: 'var(--primary-color)' }}>{numberOfFollowing}</span></h3>
+                                    {profile.username === auth.username
+                                        ? <h4 style={{ color: 'var(--primary-color)', cursor: 'pointer', display: 'inline-block' }} onClick={showEditWindow}>Edit Profile</h4>
+                                        : ''
+                                    }
                                 </div>
                                 {profile.username !== auth.username
                                     ? <button id="followbtn" className={iFollow ? 'unfollow' : 'follow'} onClick={e => handleFollowAction(iFollow)}>{iFollow ? 'Unfollow' : 'Follow'}</button>
@@ -179,7 +239,7 @@ const Profile = () => {
                             <div className="profile_pic">
                                 {profile.image === 'default.png'
                                     ? <img src="/src/assets/img/default.png" alt="Profile picture" className="avatar" />
-                                    : 'CHAO'
+                                    : <img src={`${Global_url_api}user/image/download/${profile.image}`} />
                                 }
                             </div>
                         </section>
