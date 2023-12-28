@@ -9,6 +9,7 @@ const Home = () => {
     const { auth } = useAuth();
     const [followedPosts, setFollowedPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
 
@@ -32,10 +33,33 @@ const Home = () => {
 
     }, [])
 
+    useEffect(() => {
+        if (refresh) {
+            const getData = async () => {
+                try {
+                    const response = await axios.get(url, {
+                        headers: {
+                            Authorization: auth.accessToken
+                        }
+                    })
+                    if (response?.status === 200) {
+                        setFollowedPosts(response.data.postsUsers);
+                        setIsLoading(false);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            getData();
+            setRefresh(false);
+        }
+    }, [refresh])
+
     return (
-        isLoading 
+        isLoading
             ? <PostDetails />
-            : <PostDetails followedPosts={followedPosts} isLoading={false} />
+            : <PostDetails followedPosts={followedPosts} isLoading={false} setRefresh={setRefresh} />
     )
 }
 

@@ -28,9 +28,11 @@ h1,
 h2,
 h3,
 h4,
+h5,
 p,
 a,
-label {
+label,
+strong {
   font-family: var(--primary-font);
   margin: 0;
 }
@@ -154,10 +156,6 @@ a {
   filter: invert(1);
 }
 
-.avatar {
-  border-radius: 50%;
-}
-
 
 /* PROFILE STYLE */
 
@@ -202,7 +200,7 @@ h3 {
   flex-wrap: wrap;
 }
 
-.posts_profile>*{
+.posts_profile>* {
   flex: 0 0 33.3333%;
 }
 
@@ -268,7 +266,12 @@ h3 {
 }
 
 .post__information--avatar {
-  width: 10%;
+  width: 50px;
+  aspect-ratio: 1/1;
+  border: 1px var(--light-gray) solid;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
 }
 
 .post__information--avatar:hover {
@@ -277,6 +280,13 @@ h3 {
 
 .post__information--avatar img {
   max-width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .post__content--image {
@@ -298,8 +308,8 @@ h3 {
   height: 100%;
 }
 
-.likes{
-  
+.likes {
+
   height: 100%;
   background-repeat: no-repeat;
   width: 20px;
@@ -307,7 +317,7 @@ h3 {
   margin-right: 8px;
 }
 
-.comments{
+.comments {
   background-image: url('/src/assets/img/comments.png');
   height: 100%;
   background-repeat: no-repeat;
@@ -316,64 +326,65 @@ h3 {
   margin-right: 8px;
 }
 
-.likes:hover, .comments:hover{
+.likes:hover,
+.comments:hover {
   cursor: pointer;
 }
 
-.border{
+.border {
   background-image: url('/src/assets/img/heart_border.png');
 }
 
-.filled{
+.filled {
   background-image: url('/src/assets/img/heart.png');
 }
 
-.post__content--details{
+.post__content--details {
   padding-left: 20px;
 }
 
-.post__content--details li{
+.post__content--details li {
   display: flex;
   align-items: center;
   height: 20px;
 }
 
-.post__content--details strong{
+.post__content--details strong {
   color: var(--primary-color_dark)
 }
 
-.post__content--details strong:hover{
+.post__content--details strong:hover {
   cursor: pointer;
   color: var(--primary-color);
   transition: 0.3s;
 }
 
-.post__content--comments{
+.post__content--comments {
   padding: 5px 20px;
 }
 
-.post__content--comments p{
+.post__content--comments p {
   display: inline-block;
 }
 
-.post__content--comments p:hover{
+.post__content--comments p:hover {
   cursor: pointer;
   font-size: 19px;
 }
 
-.post__content--comment_action{
+.post__content--comment_action {
   display: flex;
   margin-top: 5px;
 }
 
-.post__content--comment_action textarea{
+.post__content--comment_action textarea {
   flex: 4.5;
   border: 1px var(--light-gray) solid;
   padding: 10px;
   border-radius: 5px;
 }
 
-.post__content--comment_action div{
+.post__content--comment_action div {
   flex: 0.5;
   padding-left: 10px;
   display: flex;
@@ -381,44 +392,46 @@ h3 {
   align-items: end;
 }
 
-.post__content--comment_action div img{
+.post__content--comment_action div img {
   max-width: 70%;
 }
 
-.post__content--comment_action div img:hover{
+.post__content--comment_action div img:hover {
   cursor: pointer;
 }
 
 /* CREATE POST */
 
-#floating-file, #floating-post_info{
+#floating-file,
+#floating-post_info {
   width: 50%;
   border: none;
   border-radius: 5px;
   text-align: center;
 }
 
-#floating-file::backdrop, #floating-post_info::backdrop{
+#floating-file::backdrop,
+#floating-post_info::backdrop {
   background-color: rgba(0, 0, 0, 0.75)
 }
 
-.form_create{
+.form_create {
   width: 100%;
 }
 
-.form_create--inputfile{
+.form_create--inputfile {
   display: flex;
   flex-direction: column;
   align-items: center;
   row-gap: 10px;
 }
 
-.form_create--description label{
+.form_create--description label {
   display: block;
   margin-bottom: 5px;
 }
 
-.form_create--description textarea{
+.form_create--description textarea {
   border: 1px var(--light-gray) solid;
   min-height: 40%;
   padding: 10px;
@@ -426,7 +439,7 @@ h3 {
   min-height: 70px;
 }
 
-.uploaded_image{
+.uploaded_image {
   width: 50%;
   aspect-ratio: 1/1;
   position: relative;
@@ -434,7 +447,7 @@ h3 {
   border: 1px var(--light-gray) solid;
 }
 
-.uploaded_image img{
+.uploaded_image img {
   max-width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -443,6 +456,89 @@ h3 {
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+/* INDIVIDUAL POST */
+
+.individual_post {
+  width: 60%;
+  min-height: 300px;
+  padding-top: 0;
+}
+
+.individual_post .post__information {
+  padding: 0 10px;
+}
+
+.individual__post__content {
+  display: flex;
+}
+
+.individual__post__content--image {
+  width: 65%;
+  aspect-ratio: 1/1;
+  position: relative;
+  background-color: var(--black);
+}
+
+.individual__post__content--image img {
+  max-width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.individual__post__content--details {
+  width: 35%;
+
+}
+
+.individual__post__content textarea {
+  padding: 10px;
+  width: 90%;
+  margin-left: 10px;
+}
+
+#list-comments {
+  list-style: none;
+  height: 400px;
+  overflow: auto;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#list-comments li:first-of-type {
+  border-top: 1px var(--light-gray) solid;
+}
+
+#list-comments li:last-of-type {
+  border-bottom: none;
+}
+
+#list-comments li {
+  text-align: left;
+  border-bottom: 1px var(--light-gray) solid;
+  word-break: break-all;
+  padding: 10px 0;
+}
+
+#list-comments h4 {
+  cursor: pointer;
+  display: inline-block;
+  color: var(--primary-color_dark);
+}
+
+#list-comments li p {
+  width: 100%;
+}
+
+#list-comments h5 {
+  color: var(--dark-gray);
+  text-align: right;
 }
 
 /* TEMPLATES */
@@ -502,7 +598,7 @@ button:hover {
   text-transform: uppercase;
 }
 
-.unfollow{
+.unfollow {
   margin: 0;
   margin-top: 20px;
   background-color: var(--white);
@@ -510,29 +606,39 @@ button:hover {
   border: 2px var(--primary-color) solid;
 }
 
-.unfollow:hover{
+.unfollow:hover {
   color: var(--white);
 }
 
-.follow{
+.follow {
   margin: 0;
   margin-top: 20px;
 }
 
-dialog{
+dialog {
   width: 40%;
   border: none;
   border-radius: 5px;
   text-align: center;
 }
 
-dialog::backdrop{
+dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.75)
 }
 
-.create-success{
+.create-success {
   width: 40%;
   border: none;
   border-radius: 5px;
   text-align: center;
+}
+
+.close-dialog {
+  position: absolute;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 0;
 }

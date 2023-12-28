@@ -3,11 +3,13 @@ import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { Global_url_api } from "../../constants/global";
 import { useNavigate, useParams } from "react-router-dom";
+import ChangeProfileInfo from "./ChangeProfileInfo";
 const url = '/user';
 
 const Profile = () => {
 
     const [profile, setProfile] = useState({});
+    const [profilePic, setProfilePic] = useState('default.png');
     const [posts, setPosts] = useState([]);
     const [iFollow, setIFollow] = useState(false);
     const [following, setFollowing] = useState([]);
@@ -18,7 +20,6 @@ const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
     const { auth } = useAuth();
     const { username } = useParams();
-    const [imageToUpdate, setImageToUpdate] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -35,6 +36,7 @@ const Profile = () => {
 
                 if (response?.status === 200) {
                     setProfile(response?.data?.profile?.User);
+                    setProfilePic(response?.data?.profile?.User?.image);
 
                     response?.data?.profile?.FollowersInfo.forEach(userFollower => {
                         if (userFollower?.username?.includes(`${auth.username}`)) {
@@ -75,6 +77,7 @@ const Profile = () => {
 
             if (response?.status === 200) {
                 setProfile(response?.data?.profile?.User);
+                setProfilePic(response?.data?.profile?.User?.image);
 
                 response?.data?.profile?.FollowersInfo.forEach(userFollower => {
                     if (userFollower?.username?.includes(`${auth.username}`)) {
@@ -131,63 +134,6 @@ const Profile = () => {
         }
     }
 
-    const showEditWindow = async (e) => {
-        const createModal = document.createElement('DIALOG');
-        const formCreate = document.createElement('FORM');
-        const mainWindow = document.querySelector('.main');
-
-        const nameLabel = document.createElement('LABEL');
-        const nameField = document.createElement('INPUT');
-        nameLabel.textContent = 'Name:'
-        nameField.type = 'text'
-        nameField.name = 'name'
-        nameField.defaultValue = profile.name;
-
-        const surnameLabel = document.createElement('LABEL');
-        const surnameField = document.createElement('INPUT');
-        surnameLabel.textContent = 'Surname:'
-        surnameField.type = 'text'
-        surnameField.name = 'surname'
-        surnameField.defaultValue = profile.surname;
-
-        const profilePictureLabel = document.createElement('LABEL');
-        const profilePictureField = document.createElement('INPUT');
-        profilePictureLabel.textContent = 'Profile Picture:'
-        profilePictureField.type = 'file'
-        profilePictureField.name = 'file0'
-
-        const editButton = document.createElement('INPUT');
-        const cancelButton = document.createElement('BUTTON');
-        editButton.type = 'submit'
-        editButton.value = 'Edit'
-        cancelButton.textContent = 'Cancel'
-
-        cancelButton.addEventListener('click', e => {
-            createModal.close();
-        })
-
-        formCreate.enctype = 'multipart/form-data'
-        formCreate.appendChild(nameLabel);
-        formCreate.appendChild(nameField);
-        formCreate.appendChild(surnameLabel);
-        formCreate.appendChild(surnameField);
-        formCreate.appendChild(profilePictureLabel);
-        formCreate.appendChild(profilePictureField);
-        formCreate.append(editButton);
-
-        formCreate.addEventListener('submit', e => {
-            e.preventDefault();
-            console.log(e.target.name.value);
-        })
-
-        createModal.appendChild(formCreate);
-        createModal.append(cancelButton);
-
-        mainWindow.appendChild(createModal);
-
-        createModal.showModal();
-    }
-
     return (
         <section className="main_content">
             {isLoading
@@ -206,7 +152,7 @@ const Profile = () => {
                                 </div>
                             </div>
                             <div className="profile_pic">
-                                <img src="/src/assets/img/default.png" alt="Profile picture" className="avatar" />
+                                <img src={`/src/assets/img/${profilePic}`} alt="Profile picture" className="avatar" />
                             </div>
                         </section>
                         <section className="posts_profile">
@@ -227,7 +173,7 @@ const Profile = () => {
                                     <h3>Followers <span style={{ fontWeight: 'lighter', color: 'var(--primary-color)' }}>{numberOfFollowers}</span></h3>
                                     <h3>Following <span style={{ fontWeight: 'lighter', color: 'var(--primary-color)' }}>{numberOfFollowing}</span></h3>
                                     {profile.username === auth.username
-                                        ? <h4 style={{ color: 'var(--primary-color)', cursor: 'pointer', display: 'inline-block' }} onClick={showEditWindow}>Edit Profile</h4>
+                                        ? <h4 style={{ color: 'var(--primary-color)', cursor: 'pointer', display: 'inline-block' }} onClick={e => document.querySelector('#user_profile_information').showModal()}>Edit Profile</h4>
                                         : ''
                                     }
                                 </div>
@@ -238,8 +184,8 @@ const Profile = () => {
                             </div>
                             <div className="profile_pic">
                                 {profile.image === 'default.png'
-                                    ? <img src="/src/assets/img/default.png" alt="Profile picture" className="avatar" />
-                                    : <img src={`${Global_url_api}user/image/download/${profile.image}`} />
+                                    ? <img src={`/src/assets/img/${profilePic}`} alt="Profile picture" className="avatar" />
+                                    : <img src={`${Global_url_api}user/image/download/${profilePic}`} />
                                 }
                             </div>
                         </section>
@@ -250,6 +196,7 @@ const Profile = () => {
                                 </div>
                             ))}
                         </section>
+                        <ChangeProfileInfo profile={profile} profilePic={profilePic} setProfilePic={setProfilePic} />
                     </>
                 )
             }
