@@ -541,6 +541,63 @@ h3 {
   text-align: right;
 }
 
+/* DIALOG LIST */
+
+#list-dialog{
+  padding-top: 0;
+  width: 300px;
+}
+
+#list-dialog h1{
+  color: var(--primary-color_dark);
+  margin-top: 10px;
+}
+
+#list-ul{
+  list-style: none;
+  padding-left: 0;
+  height: 200px;
+  overflow: auto;
+  border: 1px var(--dark-gray) solid;
+  border-radius: 5px;
+}
+
+#list-ul li{
+  border-bottom: 1px var(--light-gray) solid;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#list-ul li:last-of-type{
+  border-bottom: none
+}
+
+#list-ul li p{
+  font-weight: bold;
+  color: var(--primary-color);
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* CHAT */
+
+.chat{
+  display: flex;
+  padding: 0;
+}
+
+.chat-list{
+  width: 30%;
+}
+
+.chat-content{
+  width: 70%;
+  background: url('/src/assets/img/chatbackground.jpg');
+  border-radius: 10px;
+  border-left: 1px var(--light-gray) solid;
+}
+
+
 /* TEMPLATES */
 
 .form_template {

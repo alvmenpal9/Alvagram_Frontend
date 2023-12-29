@@ -4,6 +4,9 @@ import useAuth from "../../hooks/useAuth";
 import { Global_url_api } from "../../constants/global";
 import { useNavigate, useParams } from "react-router-dom";
 import ChangeProfileInfo from "./ChangeProfileInfo";
+import IndividualFloatingPost from "./IndividualFloatingPost";
+import showIndividualPostContent, { ILike, showLists } from "../../helpers/showIndividualPost";
+import List from "../List";
 const url = '/user';
 
 const Profile = () => {
@@ -21,6 +24,9 @@ const Profile = () => {
     const { auth } = useAuth();
     const { username } = useParams();
     const navigate = useNavigate();
+    const showIndividualPost = showIndividualPostContent;
+    const ILikeFunction = ILike;
+    const showListFunction = showLists;
 
     useEffect(() => {
 
@@ -37,7 +43,6 @@ const Profile = () => {
                 if (response?.status === 200) {
                     setProfile(response?.data?.profile?.User);
                     setProfilePic(response?.data?.profile?.User?.image);
-
                     response?.data?.profile?.FollowersInfo.forEach(userFollower => {
                         if (userFollower?.username?.includes(`${auth.username}`)) {
                             setIFollow(true);
@@ -134,6 +139,22 @@ const Profile = () => {
         }
     }
 
+    const getPost = async (postId) => {
+        try {
+            const response = await axios.get(`/post/${postId}`, {
+                headers: {
+                    Authorization: auth.accessToken
+                }
+            });
+            if (response?.status === 200) {
+                showIndividualPost(response?.data?.post, auth, navigate);
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <section className="main_content">
             {isLoading
@@ -169,9 +190,9 @@ const Profile = () => {
                                     <h2>{profile.username}</h2>
                                 </div>
                                 <div style={{ marginTop: '20px' }}>
-                                    <h3>Posts <span style={{ fontWeight: 'lighter', color: 'var(--primary-color)' }}>{numberOfPosts}</span></h3>
-                                    <h3>Followers <span style={{ fontWeight: 'lighter', color: 'var(--primary-color)' }}>{numberOfFollowers}</span></h3>
-                                    <h3>Following <span style={{ fontWeight: 'lighter', color: 'var(--primary-color)' }}>{numberOfFollowing}</span></h3>
+                                    <h3>Posts <span style={{ color: 'var(--primary-color)' }}>{numberOfPosts}</span></h3>
+                                    <h3>Followers <span style={{ color: 'var(--primary-color)', cursor: 'pointer' }} onClick={e => showListFunction('Followers', followers, navigate)}>{numberOfFollowers}</span></h3>
+                                    <h3>Following <span style={{ color: 'var(--primary-color)', cursor: 'pointer' }} onClick={e => showListFunction('Following', following, navigate)}>{numberOfFollowing}</span></h3>
                                     {profile.username === auth.username
                                         ? <h4 style={{ color: 'var(--primary-color)', cursor: 'pointer', display: 'inline-block' }} onClick={e => document.querySelector('#user_profile_information').showModal()}>Edit Profile</h4>
                                         : ''
@@ -190,13 +211,15 @@ const Profile = () => {
                             </div>
                         </section>
                         <section className="posts_profile">
-                            {posts.map(post => (
-                                <div key={post._id} className="post_profile">
+                            {posts.toReversed().map(post => (
+                                <div key={post._id} className="post_profile" onClick={e => getPost(post._id)}>
                                     <img src={`${Global_url_api}post/image/${[post.image]}`} />
                                 </div>
                             ))}
                         </section>
                         <ChangeProfileInfo profile={profile} profilePic={profilePic} setProfilePic={setProfilePic} />
+                        <IndividualFloatingPost />
+                        <List />
                     </>
                 )
             }

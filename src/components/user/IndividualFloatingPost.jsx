@@ -1,22 +1,22 @@
 import React from "react";
 
+export const cleanDialog = (e) => {
+    document.querySelector('#ind-user').textContent = '';
+    document.querySelector('#ind-date').textContent = '';
+    document.querySelector('#ind-user-image').textContent = '';
+    document.querySelector('#ind-post-image').src = '';
+    document.querySelector('#ind-user-bottom').textContent = '';
+    document.querySelector('#ind-post-description').textContent = '';
+    document.querySelector('#ind-number-comments').textContent = '';
+    document.querySelector('#ind-number-likes').textContent = '';
+    document.querySelector('#ind-likes-icon').className = '';
+    const list = document.querySelector('#list-comments');
+    list.innerHTML = '';
+
+    document.querySelector('#individual_post_information').close();
+}
+
 const IndividualFloatingPost = () => {
-
-    const cleanDialog = (e) => {
-        document.querySelector('#ind-user').textContent = '';
-        document.querySelector('#ind-date').textContent = '';
-        document.querySelector('#ind-user-image').textContent = '';
-        document.querySelector('#ind-post-image').src = '';
-        document.querySelector('#ind-user-bottom').textContent = '';
-        document.querySelector('#ind-post-description').textContent = '';
-        document.querySelector('#ind-number-comments').textContent = '';
-        document.querySelector('#ind-number-likes').textContent = '';
-        document.querySelector('#ind-likes-icon').className = '';
-        const list = document.querySelector('#list-comments');
-        list.innerHTML = '';
-
-        document.querySelector('#individual_post_information').close();
-    }
 
     return(
         <dialog id="individual_post_information" className="individual_post">
