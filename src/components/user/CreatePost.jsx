@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Global_url_api } from "../../constants/global";
-import axios from "../../api/axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const CreatePost = () => {
 
@@ -9,6 +9,7 @@ const CreatePost = () => {
     const [file, setFile] = useState();
     const [description, setDescription] = useState('');
     const [createdPost, setCreatedPost] = useState({});
+    const axiosPrivate = useAxiosPrivate();
 
     const uploadFile = async (e) => {
         const modal = document.querySelector('#floating-post_info');
@@ -16,7 +17,7 @@ const CreatePost = () => {
         formData.append('file0', file);
 
         try {
-            const response = await axios.post('/post', formData, {
+            const response = await axiosPrivate.post('/post', formData, {
                 headers: {
                     Authorization: auth.accessToken
                 },
@@ -31,13 +32,15 @@ const CreatePost = () => {
                 modal.showModal();
             }
         } catch (error) {
-            console.error(error);
+            if(error?.response?.status === 403) {
+                navigate('/login', {state: {from: location}, replace: true});
+            }
         }
     }
 
     const createPost = async (e) => {
         try {
-            const response = await axios.put(`/post/${createdPost.postId}`, {
+            const response = await axiosPrivate.put(`/post/${createdPost.postId}`, {
                 description: description
             }, {
                 headers: {
@@ -55,7 +58,9 @@ const CreatePost = () => {
             }
 
         } catch (error) {
-            console.error(error);
+            if(error?.response?.status === 403) {
+                navigate('/login', {state: {from: location}, replace: true});
+            }
         }
     }
 
@@ -95,7 +100,7 @@ const CreatePost = () => {
                     const modalToClose = document.querySelector('#floating-post_info');
                     document.querySelector('#file0').value = ''
                     document.querySelector('#description').value = ''
-                    const response = await axios.delete(`/post/${createdPost?.postId}`, { headers: { Authorization: auth.accessToken } })
+                    const response = await axiosPrivate.delete(`/post/${createdPost?.postId}`, { headers: { Authorization: auth.accessToken } })
                     if (response?.status === 200) {
                         setCreatedPost({});
                     }

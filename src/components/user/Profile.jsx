@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { Global_url_api } from "../../constants/global";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ChangeProfileInfo from "./ChangeProfileInfo";
 import IndividualFloatingPost from "./IndividualFloatingPost";
 import showIndividualPostContent, { ILike, showLists } from "../../helpers/showIndividualPost";
 import List from "../List";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 const url = '/user';
 
 const Profile = () => {
@@ -23,6 +23,8 @@ const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
     const { auth } = useAuth();
     const { username } = useParams();
+    const axiosPrivate = useAxiosPrivate();
+    const location = useLocation();
     const navigate = useNavigate();
     const showIndividualPost = showIndividualPostContent;
     const ILikeFunction = ILike;
@@ -33,7 +35,7 @@ const Profile = () => {
         setIFollow(false);
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${url}/profile/${username}`, {
+                const response = await axiosPrivate.get(`${url}/profile/${username}`, {
                     headers: {
                         Authorization: auth.accessToken
                     },
@@ -62,6 +64,9 @@ const Profile = () => {
                     navigate(-1);
                     alert('User not found')
                 }
+                if (error?.response?.status === 403) {
+                    navigate('/login', { state: { from: location }, replace: true });
+                }
             }
         };
 
@@ -73,31 +78,39 @@ const Profile = () => {
 
         setIFollow(false);
         const fetchData = async () => {
-            const response = await axios.get(`${url}/profile/${username}`, {
-                headers: {
-                    Authorization: auth.accessToken
-                },
-                withCredentials: true,
-            })
+            try {
 
-            if (response?.status === 200) {
-                setProfile(response?.data?.profile?.User);
-                setProfilePic(response?.data?.profile?.User?.image);
 
-                response?.data?.profile?.FollowersInfo.forEach(userFollower => {
-                    if (userFollower?.username?.includes(`${auth.username}`)) {
-                        setIFollow(true);
-                    }
-
+                const response = await axiosPrivate.get(`${url}/profile/${username}`, {
+                    headers: {
+                        Authorization: auth.accessToken
+                    },
+                    withCredentials: true,
                 })
 
-                setPosts(response?.data?.profile?.Posts);
-                setFollowing(response?.data?.profile?.FollowingInfo);
-                setFollowers(response?.data?.profile?.FollowersInfo);
-                setNumberOfPosts(response?.data?.profile?.Posts.length);
-                setNumberOfFollowers(response?.data?.profile?.FollowersInfo.length);
-                setNumberOfFollowing(response?.data?.profile?.FollowingInfo.length);
-                setIsLoading(false);
+                if (response?.status === 200) {
+                    setProfile(response?.data?.profile?.User);
+                    setProfilePic(response?.data?.profile?.User?.image);
+
+                    response?.data?.profile?.FollowersInfo.forEach(userFollower => {
+                        if (userFollower?.username?.includes(`${auth.username}`)) {
+                            setIFollow(true);
+                        }
+
+                    })
+
+                    setPosts(response?.data?.profile?.Posts);
+                    setFollowing(response?.data?.profile?.FollowingInfo);
+                    setFollowers(response?.data?.profile?.FollowersInfo);
+                    setNumberOfPosts(response?.data?.profile?.Posts.length);
+                    setNumberOfFollowers(response?.data?.profile?.FollowersInfo.length);
+                    setNumberOfFollowing(response?.data?.profile?.FollowingInfo.length);
+                    setIsLoading(false);
+                }
+            } catch (error) {
+                if (error?.response?.status === 403) {
+                    navigate('/login', { state: { from: location }, replace: true });
+                }
             }
         };
 
@@ -109,7 +122,7 @@ const Profile = () => {
 
         try {
             if (iFollow) {
-                response = await axios.get(`/follow/unfollow/${profile.id}`, {
+                response = await axiosPrivate.get(`/follow/unfollow/${profile.id}`, {
                     headers: {
                         Authorization: auth.accessToken
                     }
@@ -120,7 +133,7 @@ const Profile = () => {
                 }
 
             } else {
-                response = await axios.post(`/follow`, {
+                response = await axiosPrivate.post(`/follow`, {
                     username: username
                 }, {
                     headers: {
@@ -135,13 +148,15 @@ const Profile = () => {
             }
 
         } catch (error) {
-            console.error(error);
+            if (error?.response?.status === 403) {
+                navigate('/login', { state: { from: location }, replace: true });
+            }
         }
     }
 
     const getPost = async (postId) => {
         try {
-            const response = await axios.get(`/post/${postId}`, {
+            const response = await axiosPrivate.get(`/post/${postId}`, {
                 headers: {
                     Authorization: auth.accessToken
                 }
@@ -151,7 +166,9 @@ const Profile = () => {
             }
 
         } catch (error) {
-            console.error(error);
+            if (error?.response?.status === 403) {
+                navigate('/login', { state: { from: location }, replace: true });
+            }
         }
     }
 

@@ -1,18 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 
 const Login = () => {
 
-    const { setAuth } = useAuth();
+    const { auth, setAuth, setPersist, persist } = useAuth();
     const navigate = useNavigate();
+    const from = location.state?.from?.pathname || '/home';
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [incorrect, setIncorrect] = useState(false);
 
-    const handleLogin = async (e) => {
+    const handleLogin = async e => {
         e.preventDefault();
 
         const body = {
@@ -33,12 +34,20 @@ const Login = () => {
                     role: response.data.role,
                     accessToken: response.data.accessToken
                 });
-                navigate('/home');
+                navigate(from, { replace: true });
             }
         } catch (error) {
             if (error?.response?.status === 404) setIncorrect(true);
         }
 
+    }
+
+    useEffect(() => {
+        localStorage.setItem('persist', persist);
+    }, [persist])
+
+    const togglePersist = e => {
+        setPersist(prev => !prev);
     }
 
     return (
@@ -56,6 +65,10 @@ const Login = () => {
                     <label htmlFor="password">Password</label>
                     <input type="password" name="password" onChange={e => setPassword(e.target.value)} required minLength={5} />
                     <button>Sign In!</button>
+                    <div>
+                        <input type="checkbox" name="persist" onChange={togglePersist} checked={persist} />
+                        <label htmlFor="persist">Trust this device</label>
+                    </div>
                     <p>Not registered yet?</p>
                     <NavLink to='/register'>Sign Up</NavLink>
                 </form>

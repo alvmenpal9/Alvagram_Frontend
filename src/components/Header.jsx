@@ -2,15 +2,31 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Browser from "./Browser";
 import useAuth from "../hooks/useAuth";
+import axios from "../api/axios";
+import useLogout from "../hooks/useLogout";
 
 const Header = () => {
 
     const navigate = useNavigate();
     const { auth } = useAuth();
+    const logout = useLogout();
 
     const showFloatingModal = (e) => {
         const modal = document.querySelector('#floating-file');
         modal.showModal();
+    }
+
+    const showLogout = (e) => {
+        document.querySelector('.logout').style.display = "block";
+    }
+
+    const hideLogout = (e) => {
+        document.querySelector('.logout').style.display = "none";
+    }
+
+    const handleLogout = async (e) => {
+        await logout();
+        navigate('/login');
     }
 
     return (
@@ -41,13 +57,16 @@ const Header = () => {
                             <img src="/src/assets/img/notifications.png" alt="Notifications" />
                         </NavLink>
                     </li>
-                    <li>
+                    <li onMouseEnter={showLogout}>
                         <NavLink to={`/profile/${auth.username}`}>
                             <img className="avatar" src="/src/assets/img/default.png" alt="Profile" />
                         </NavLink>
                     </li>
                 </ul>
             </nav>
+            <div className="logout" onMouseLeave={hideLogout} onClick={handleLogout}>
+                <h2>Logout</h2>
+            </div>
         </header>
     )
 }

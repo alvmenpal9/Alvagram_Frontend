@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import axios from "../../api/axios";
 import PostDetails from "./PostDetails";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const url = 'post/followed'
 const Home = () => {
@@ -10,12 +10,13 @@ const Home = () => {
     const [followedPosts, setFollowedPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [refresh, setRefresh] = useState(false);
+    const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
 
         const getData = async () => {
             try {
-                const response = await axios.get(url, {
+                const response = await axiosPrivate.get(url, {
                     headers: {
                         Authorization: auth.accessToken
                     }
@@ -25,7 +26,9 @@ const Home = () => {
                     setIsLoading(false);
                 }
             } catch (error) {
-                console.error(error);
+                if(error?.response?.status === 403) {
+                    navigate('/login', {state: {from: location}, replace: true});
+                }
             }
         }
 
@@ -37,7 +40,7 @@ const Home = () => {
         if (refresh) {
             const getData = async () => {
                 try {
-                    const response = await axios.get(url, {
+                    const response = await axiosPrivate.get(url, {
                         headers: {
                             Authorization: auth.accessToken
                         }
@@ -47,7 +50,9 @@ const Home = () => {
                         setIsLoading(false);
                     }
                 } catch (error) {
-                    console.error(error);
+                    if(error?.response?.status === 403) {
+                        navigate('/login', {state: {from: location}, replace: true});
+                    }
                 }
             }
 

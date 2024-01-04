@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import moment from "moment";
 import { Global_url_api } from "../../constants/global";
@@ -7,11 +6,13 @@ import { useNavigate } from "react-router-dom";
 import IndividualFloatingPost from "./IndividualFloatingPost";
 import showIndividualPostContent, { ILike } from "../../helpers/showIndividualPost";
 import List from "../List";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
 
     const currentTime = new Date();
     const { auth } = useAuth();
+    const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const showIndividualPost = showIndividualPostContent;
     const ILikeFunction = ILike;
@@ -19,7 +20,7 @@ const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
     const handleLike = async (postId) => {
 
         try {
-            const response = await axios.get(`${Global_url_api}like/${postId}`, {
+            const response = await axiosPrivate.get(`${Global_url_api}like/${postId}`, {
                 headers: {
                     Authorization: auth.accessToken
                 }
@@ -40,14 +41,16 @@ const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
                 }
             }
         } catch (error) {
-            console.error(error);
+            if(error?.response?.status === 403) {
+                navigate('/login', {state: {from: location}, replace: true});
+            }
         }
     }
 
     const handleComment = async (postId) => {
         const comment = document.querySelector(`#textarea${postId}`).value;
         try {
-            const response = await axios.post(`${Global_url_api}comment/${postId}`, { comment: comment }, {
+            const response = await axiosPrivate.post(`${Global_url_api}comment/${postId}`, { comment: comment }, {
                 headers: {
                     Authorization: auth.accessToken
                 },
@@ -60,7 +63,9 @@ const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
                 setRefresh(true);
             }
         } catch (error) {
-            console.error(error);
+            if(error?.response?.status === 403) {
+                navigate('/login', {state: {from: location}, replace: true});
+            }
         }
     }
 

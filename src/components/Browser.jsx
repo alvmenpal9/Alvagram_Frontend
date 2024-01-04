@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const Browser = () => {
 
     const [userToSearch, setUserToSearch] = useState('');
+    const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const { auth } = useAuth();
 
     const search = async (e) => {
         e.preventDefault();
         try {
-            const userExists = await axios.get(`user/profile/${userToSearch}`, {
+            const userExists = await axiosPrivate.get(`user/profile/${userToSearch}`, {
                 headers: {
                     Authorization: auth.accessToken
                 }
@@ -23,6 +24,9 @@ const Browser = () => {
         } catch (error) {
             if (error?.response?.status === 404) {
                 alert('User not found')
+            }
+            if(error?.response?.status === 403) {
+                navigate('/login', {state: {from: location}, replace: true});
             }
         }
         e.target.username.value = '';
