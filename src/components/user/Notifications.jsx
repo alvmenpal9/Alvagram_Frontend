@@ -54,9 +54,14 @@ const Notifications = () => {
                                 {notifications.map(notification => (
                                     <li key={notification._id} className="notification-item">
                                         <div className="notification-description">
-                                            <h3 style={{color: 'var(--primary-color)'}}>{notification?.User.username}</h3>
-                                            <p>{notification.typeNotification === 'Like' && 'Liked your post'}</p>
-                                            <p style={{color: 'var(--dark-gray)'}}>{format(new Date(notification.date), 'M/dd kk:mm')}</p>
+                                            <h3 style={{ color: 'var(--primary-color)' }}>{notification?.User.username}</h3>
+                                            <p>
+                                                {notification.typeNotification === 'Like'
+                                                    ? 'Liked your post'
+                                                    :  notification.typeNotification === 'Comment' && 'Left a comment'
+                                                }
+                                            </p>
+                                            <p style={{ color: 'var(--dark-gray)' }}>{format(new Date(notification.date), 'M/dd kk:mm')}</p>
                                         </div>
                                         <div className="notification-thumbnail">
                                             <img src={`${Global_url_api}post/image/${notification?.Post.image}`} alt="thumbnail" />
