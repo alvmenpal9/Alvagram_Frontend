@@ -20,16 +20,25 @@ function App() {
     auth: {
       token: auth.accessToken
     },
-    withCredentials: true
+    withCredentials: true,
+    reconnection: false,
+    autoConnect: false
   });
 
   useEffect(() => {
-    socket.on('Connected', msg => console.log(msg));
-    socket.on('User Connected', msg => {
+
+    socket.on('Connected', msg => {
       console.log(msg)
     });
+    socket.on('User Connected', msg => {
+      console.log(msg);
+    });
 
-  })
+    return () => {
+      socket.disconnect();
+    }
+
+  }, [])
 
   const ROLES = {
     'User': 'user'

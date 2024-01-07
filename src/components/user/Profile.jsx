@@ -178,7 +178,7 @@ const Profile = () => {
                 ? (
                     <>
                         <section className="profile_info">
-                            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '40px' }}>
+                            <div className="profile_info_text">
                                 <div>
                                     <h1>User</h1>
                                     <h2>Username</h2>
@@ -201,7 +201,7 @@ const Profile = () => {
                 : (
                     <>
                         <section className="profile_info">
-                            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '40px', minWidth: '300px' }}>
+                            <div className="profile_info_text">
                                 <div>
                                     <h1>{profile.name} {profile.surname}</h1>
                                     <h2>{profile.username}</h2>

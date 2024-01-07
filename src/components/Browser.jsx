@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
-const Browser = () => {
+const Browser = ({isMobile}) => {
 
     const [userToSearch, setUserToSearch] = useState('');
     const axiosPrivate = useAxiosPrivate();
@@ -33,7 +33,7 @@ const Browser = () => {
     }
 
     return (
-        <div className="browser">
+        <div className={isMobile ? 'browser-mobile' : 'browser'}>
             <form onSubmit={search}>
                 <input type="text" placeholder="Search for users" min={1} style={{ width: '100%' }} onChange={e => setUserToSearch(e.target.value)} name="username" />
             </form>

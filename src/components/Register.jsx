@@ -19,7 +19,7 @@ const Register = () => {
     const [userExists, setUserExists] = useState(false);
     const [userSuccess, setUserSuccess] = useState(false);
 
-    const stringRegex = /^[a-zA-Z'-]{3,15}$/
+    const stringRegex = /^[a-zA-Z'-]{3,15}$/;
 
     useEffect(() => {
         const validString = stringRegex.test(name);

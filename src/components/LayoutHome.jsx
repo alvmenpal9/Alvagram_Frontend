@@ -1,12 +1,31 @@
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom"
 
 const LayoutHome = () => {
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [isMobile, setIsMobile] = useState();
+
+    useEffect(() => {
+        const userAgent = navigator.userAgent;
+        const mobile = /Mobi|Android/i.test(userAgent);
+
+        setIsMobile(mobile);
+        setIsLoading(false);
+        return () => {
+            setIsLoading(true);
+        }
+    },[])
+
     return (
         <main className="App">
-            <div className="main-page">
+            <div className={isMobile ? 'main-page mobile' : 'main-page'}>
                 <div id="background">
                     <img src="/src/assets/img/logo_no_text.png" />
-                    <h1>ALVAGRAM</h1>
+                    {!isMobile 
+                        ? <h1>ALVAGRAM</h1>
+                        : ''
+                    }
                 </div>
                 <Outlet />
             </div>

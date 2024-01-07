@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Global_url_api } from "../../constants/global";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import axios from "../../api/axios";
 
 const CreatePost = () => {
 
@@ -17,7 +18,7 @@ const CreatePost = () => {
         formData.append('file0', file);
 
         try {
-            const response = await axiosPrivate.post('/post', formData, {
+            const response = await axios.post('/post', formData, {
                 headers: {
                     Authorization: auth.accessToken
                 },
