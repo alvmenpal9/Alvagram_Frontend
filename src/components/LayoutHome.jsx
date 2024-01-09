@@ -22,10 +22,6 @@ const LayoutHome = () => {
             <div className={isMobile ? 'main-page mobile' : 'main-page'}>
                 <div id="background">
                     <img src="/src/assets/img/logo_no_text.png" />
-                    {!isMobile 
-                        ? <h1>ALVAGRAM</h1>
-                        : ''
-                    }
                 </div>
                 <Outlet />
             </div>
