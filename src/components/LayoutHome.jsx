@@ -21,7 +21,7 @@ const LayoutHome = () => {
         <main className="App">
             <div className={isMobile ? 'main-page mobile' : 'main-page'}>
                 <div id="background">
-                    <img src="/src/assets/img/logo_no_text.png" />
+                    <img src="/assets/img/logo_no_text.png" />
                 </div>
                 <Outlet />
             </div>

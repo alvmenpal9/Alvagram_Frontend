@@ -603,7 +603,7 @@ h3 {
 }
 
 .comments {
-  background-image: url('/src/assets/img/comments.png');
+  background-image: url('/assets/img/comments.png');
   height: 100%;
   background-repeat: no-repeat;
   width: 20px;
@@ -617,11 +617,11 @@ h3 {
 }
 
 .border {
-  background-image: url('/src/assets/img/heart_border.png');
+  background-image: url('/assets/img/heart_border.png');
 }
 
 .filled {
-  background-image: url('/src/assets/img/heart.png');
+  background-image: url('/assets/img/heart.png');
 }
 
 .post__content--details {
@@ -972,7 +972,7 @@ h3 {
 
 .chat-content {
   width: 100%;
-  background: url('/src/assets/img/chatbackground.jpg');
+  background: url('/assets/img/chatbackground.jpg');
   border-radius: 10px;
   border-left: 1px var(--light-gray) solid;
   position: relative;
@@ -1077,7 +1077,7 @@ h3 {
 
   .chat-content {
     width: 70%;
-    background: url('/src/assets/img/chatbackground.jpg');
+    background: url('/assets/img/chatbackground.jpg');
     border-radius: 10px;
     border-left: 1px var(--light-gray) solid;
     height: 100%;

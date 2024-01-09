@@ -79,7 +79,7 @@ const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
                                 <h3 onClick={e => navigate(`/profile/${post.UserWhoPosted.username}`)} >{post.UserWhoPosted.username} - <span style={{ color: 'var(--dark-gray)', fontWeight: 'normal', fontSize: '18px' }}>{moment(post.Post.date).format("MMM/D h:mm A")}</span></h3>
                                 <div className="post__information--avatar" onClick={e => navigate(`/profile/${post.UserWhoPosted.username}`)}>
                                     {post.UserWhoPosted.image === 'default.png'
-                                        ? <img src="/src/assets/img/default.png" />
+                                        ? <img src="/assets/img/default.png" />
                                         : <img src={`${Global_url_api}user/image/download/${post.UserWhoPosted.image}`} className="avatar" />
                                     }
                                 </div>
@@ -108,7 +108,7 @@ const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
                                 <div className="post__content--comment_action">
                                     <textarea id={`textarea${post.Post._id}`} placeholder="Make a comment..."></textarea>
                                     <div onClick={e => handleComment(post.Post._id)}>
-                                        <img src="/src/assets/img/send-message.png" />
+                                        <img src="/assets/img/send-message.png" />
                                     </div>
                                 </div>
                             </section>
@@ -125,7 +125,7 @@ const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
                     <header className="post__information">
                         <h3>Username</h3>
                         <div className="post__information--avatar">
-                            <img src="/src/assets/img/default.png" />
+                            <img src="/assets/img/default.png" />
                         </div>
                     </header>
                     <section className="post__content">

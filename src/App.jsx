@@ -16,7 +16,7 @@ import PersistLogin from './components/PersistLogin'
 function App() {
 
   const { auth } = useAuth();
-  let socket = io('ws://localhost:3000', {
+  let socket = io('ws://82.180.160.136:3000', {
     auth: {
       token: auth.accessToken
     },

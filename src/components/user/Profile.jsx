@@ -190,7 +190,7 @@ const Profile = () => {
                                 </div>
                             </div>
                             <div className="profile_pic">
-                                <img src={`/src/assets/img/${profilePic}`} alt="Profile picture" className="avatar" />
+                                <img src={`/assets/img/${profilePic}`} alt="Profile picture" className="avatar" />
                             </div>
                         </section>
                         <section className="posts_profile">
@@ -222,7 +222,7 @@ const Profile = () => {
                             </div>
                             <div className="profile_pic">
                                 {profile.image === 'default.png'
-                                    ? <img src={`/src/assets/img/${profilePic}`} alt="Profile picture" className="avatar" />
+                                    ? <img src={`/assets/img/${profilePic}`} alt="Profile picture" className="avatar" />
                                     : <img src={`${Global_url_api}user/image/download/${profilePic}`} />
                                 }
                             </div>
