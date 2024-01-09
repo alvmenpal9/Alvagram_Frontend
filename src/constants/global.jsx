@@ -1,1 +1,1 @@
-export const Global_url_api = 'http://localhost:3000/';
+export const Global_url_api = 'http://82.180.160.136:3000/';
