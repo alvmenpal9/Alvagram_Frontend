@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import { Global_url_api } from "../../constants/global";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ChangeProfileInfo from "./ChangeProfileInfo";
 import IndividualFloatingPost from "./IndividualFloatingPost";
@@ -223,14 +222,14 @@ const Profile = () => {
                             <div className="profile_pic">
                                 {profile.image === 'default.png'
                                     ? <img src={`/assets/img/${profilePic}`} alt="Profile picture" className="avatar" />
-                                    : <img src={`${Global_url_api}user/image/download/${profilePic}`} />
+                                    : <img src={`${process.env.REACT_APP_GLOBAL_URL_API}user/image/download/${profilePic}`} />
                                 }
                             </div>
                         </section>
                         <section className="posts_profile">
                             {posts.toReversed().map(post => (
                                 <div key={post._id} className="post_profile" onClick={e => getPost(post._id)}>
-                                    <img src={`${Global_url_api}post/image/${[post.image]}`} />
+                                    <img src={`${process.env.REACT_APP_GLOBAL_URL_API}post/image/${[post.image]}`} />
                                 </div>
                             ))}
                         </section>
