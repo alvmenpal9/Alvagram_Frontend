@@ -1,5 +1,4 @@
 import moment from "moment";
-import { Global_url_api } from "../constants/global";
 import { cleanDialog } from "../components/user/IndividualFloatingPost";
 
 export const ILike = (post, auth) => {
@@ -88,12 +87,12 @@ const showIndividualPostContent = (post, auth, navigate) => {
     date.textContent = `${moment(post?.Post?.date).format("MMM/D h:mm A")}`
 
     if (post?.FollowedUser?.image === 'default.png') {
-        userImage.src = `/src/assets/img/default.png`;
+        userImage.src = `/assets/img/default.png`;
     } else {
-        userImage.src = `${Global_url_api}user/image/download/${post?.UserWhoPosted?.image}`;
+        userImage.src = `${process.env.REACT_APP_GLOBAL_URL_API}user/image/download/${post?.UserWhoPosted?.image}`;
     }
 
-    postImage.src = `${Global_url_api}post/image/${post?.Post?.image}`;
+    postImage.src = `${process.env.REACT_APP_GLOBAL_URL_API}post/image/${post?.Post?.image}`;
     userBottom.textContent = `${post?.UserWhoPosted?.username}`;
     description.textContent = `${post?.Post?.description}`;
     numberOfComments.textContent = `${post?.Comments?.length}`;

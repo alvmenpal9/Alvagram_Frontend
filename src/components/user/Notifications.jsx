@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { axiosPrivate } from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { Global_url_api } from "../../constants/global";
 import { format } from 'date-fns';
 
 const Notifications = () => {
@@ -64,7 +63,7 @@ const Notifications = () => {
                                             <p style={{ color: 'var(--dark-gray)' }}>{format(new Date(notification.date), 'M/dd kk:mm')}</p>
                                         </div>
                                         <div className="notification-thumbnail">
-                                            <img src={`${Global_url_api}post/image/${notification?.Post.image}`} alt="thumbnail" />
+                                            <img src={`${process.env.REACT_APP_GLOBAL_URL_API}post/image/${notification?.Post.image}`} alt="thumbnail" />
                                         </div>
                                     </li>
                                 ))}

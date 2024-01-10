@@ -25,3 +25,7 @@ dist-ssr
 
 axios.jsx
 /constants
+# Local Netlify folder
+.netlify
+
+.env
