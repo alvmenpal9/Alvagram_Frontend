@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useRenderChat from "../../helpers/renderChats";
+import { Global_URL_API } from "../../constants/Global";
 
 const Messages = ({ socket }) => {
 
@@ -77,7 +78,7 @@ const Messages = ({ socket }) => {
 
         try {
             if (userToText.value !== auth.username) {
-                const response = await axiosPrivate.get(`${process.env.REACT_APP_GLOBAL_URL_API}user/`);
+                const response = await axiosPrivate.get(`${Global_URL_API}user/`);
                 if (response?.status === 200) {
                     response.data.users.forEach(user => {
                         if (user.username === userToText.value) {

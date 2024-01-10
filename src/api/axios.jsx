@@ -1,5 +1,6 @@
 import axios from "axios";
-const BASE_URL = 'https://82.180.160.136:3000/'
+import { Global_URL_API } from "../constants/Global";
+const BASE_URL = Global_URL_API;
 
 export default axios.create({
     baseURL: BASE_URL,

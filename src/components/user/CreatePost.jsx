@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import axios from "../../api/axios";
+import { Global_URL_API } from "../../constants/Global";
 
 const CreatePost = () => {
 
@@ -86,7 +87,7 @@ const CreatePost = () => {
             <dialog id="floating-post_info">
                 <h1>Create Post</h1>
                 <div className="uploaded_image">
-                    <img src={`${process.env.REACT_APP_GLOBAL_URL_API}post/image/${createdPost?.filename}`} alt="Preview Image" />
+                    <img src={`${Global_URL_API}post/image/${createdPost?.filename}`} alt="Preview Image" />
                 </div>
                 <form className="form_create" method="dialog" onSubmit={createPost}>
                     <div className="form_create--description">

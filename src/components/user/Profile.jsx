@@ -6,6 +6,7 @@ import IndividualFloatingPost from "./IndividualFloatingPost";
 import showIndividualPostContent, { ILike, showLists } from "../../helpers/showIndividualPost";
 import List from "../List";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { Global_URL_API } from "../../constants/Global";
 const url = '/user';
 
 const Profile = () => {
@@ -222,14 +223,14 @@ const Profile = () => {
                             <div className="profile_pic">
                                 {profile.image === 'default.png'
                                     ? <img src={`/assets/img/${profilePic}`} alt="Profile picture" className="avatar" />
-                                    : <img src={`${process.env.REACT_APP_GLOBAL_URL_API}user/image/download/${profilePic}`} />
+                                    : <img src={`${Global_URL_API}user/image/download/${profilePic}`} />
                                 }
                             </div>
                         </section>
                         <section className="posts_profile">
                             {posts.toReversed().map(post => (
                                 <div key={post._id} className="post_profile" onClick={e => getPost(post._id)}>
-                                    <img src={`${process.env.REACT_APP_GLOBAL_URL_API}post/image/${[post.image]}`} />
+                                    <img src={`${Global_URL_API}post/image/${[post.image]}`} />
                                 </div>
                             ))}
                         </section>

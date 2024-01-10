@@ -1,0 +1,1 @@
+export const Global_URL_API = 'https://82.180.160.136:3000/';

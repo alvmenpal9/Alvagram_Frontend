@@ -6,6 +6,7 @@ import IndividualFloatingPost from "./IndividualFloatingPost";
 import showIndividualPostContent, { ILike } from "../../helpers/showIndividualPost";
 import List from "../List";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { Global_URL_API } from "../../constants/Global";
 
 const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
 
@@ -19,7 +20,7 @@ const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
     const handleLike = async (postId) => {
 
         try {
-            const response = await axiosPrivate.get(`${process.env.REACT_APP_GLOBAL_URL_API}like/${postId}`, {
+            const response = await axiosPrivate.get(`${Global_URL_API}like/${postId}`, {
                 headers: {
                     Authorization: auth.accessToken
                 }
@@ -49,7 +50,7 @@ const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
     const handleComment = async (postId) => {
         const comment = document.querySelector(`#textarea${postId}`).value;
         try {
-            const response = await axiosPrivate.post(`${process.env.REACT_APP_GLOBAL_URL_API}comment/${postId}`, { comment: comment }, {
+            const response = await axiosPrivate.post(`${Global_URL_API}comment/${postId}`, { comment: comment }, {
                 headers: {
                     Authorization: auth.accessToken
                 },
@@ -79,13 +80,13 @@ const PostDetails = ({ followedPosts = [], isLoading = true, setRefresh }) => {
                                 <div className="post__information--avatar" onClick={e => navigate(`/profile/${post.UserWhoPosted.username}`)}>
                                     {post.UserWhoPosted.image === 'default.png'
                                         ? <img src="/assets/img/default.png" />
-                                        : <img src={`${process.env.REACT_APP_GLOBAL_URL_API}user/image/download/${post.UserWhoPosted.image}`} className="avatar" />
+                                        : <img src={`${Global_URL_API}user/image/download/${post.UserWhoPosted.image}`} className="avatar" />
                                     }
                                 </div>
                             </header>
                             <section className="post__content">
                                 <div className="post__content--image">
-                                    <img src={`${process.env.REACT_APP_GLOBAL_URL_API}post/image/${post.Post.image}`} />
+                                    <img src={`${Global_URL_API}post/image/${post.Post.image}`} />
                                 </div>
                                 <div className="post__content--details">
                                     <ul style={{ listStyle: 'none', paddingLeft: '0', display: 'flex', columnGap: '10px' }}>
