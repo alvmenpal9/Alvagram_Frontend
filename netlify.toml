@@ -1,0 +1,8 @@
+[build]
+  command = "vite build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "https://82.180.160.136:3000"
+  status = 200
