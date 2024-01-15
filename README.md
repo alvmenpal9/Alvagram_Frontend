@@ -1,8 +1,24 @@
-# React + Vite
+Quick introduction to Alvagram:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Alvagram is a Web App inspired directly by Instagram, includes different actions:
 
-Currently, two official plugins are available:
+- Register
+- Login
+- Create a Post
+- Follow/Unfollow a user
+- Like a Post
+- Comment a Post
+- Real-time chat using Socket.io
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Backend is developed using NodeJs/Express
+Frontend is developed using ReactJs
+
+App is responsive, some changes had to be done when deploying it in the actual server.
+URL to the app: https://alvagram.net or https://www.alvagram.net
+
+Frontend includes:
+- Protected routes
+- Role based protected routes
+- Persist login
+- JWT authentication, NOT stored in Localstorage
+- Local storage is only used for persistent login (If user trusts device or not)
